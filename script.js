@@ -23,7 +23,11 @@ function renderHome(globalData) {
   for (const [categoryName, categoryData] of Object.entries(globalData.categories)) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `<h2>${categoryName}</h2><p>${categoryData.description}</p>`;
+    // Add image if present
+    card.innerHTML = `
+      ${categoryData.image ? `<img src="${categoryData.image}" alt="${categoryName} thumbnail" class="thumb">` : ''}
+      <h3>${categoryName}</h3>
+    `;
     card.onclick = () => renderCategory(categoryName, categoryData);
     contentEl.appendChild(card);
   }
@@ -41,7 +45,11 @@ function renderCategory(name, data) {
   for (const [subName, subData] of Object.entries(data.subcategories)) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `<h3>${subName}</h3>`;
+    // Add image if present
+    card.innerHTML = `
+      ${subData.image ? `<img src="${subData.image}" alt="${subName} thumbnail" class="thumb">` : ''}
+      <h3>${subName}</h3>
+    `;
     card.onclick = () => renderSubcategory(name, subName, subData);
     contentEl.appendChild(card);
   }
@@ -56,39 +64,13 @@ function renderSubcategory(categoryName, subName, subData) {
   subData.articles.forEach(article => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `<h3>${article.title}</h3><p>${article.abstract}</p>`;
+    // Add image if present
+    card.innerHTML = `
+      ${article.image ? `<img src="${article.image}" alt="${article.title} thumbnail" class="thumb">` : ''}
+      <h3>${article.title}</h3>
+      <p>${article.abstract}</p>
+    `;
     card.onclick = () => renderArticle(categoryName, subName, article);
     contentEl.appendChild(card);
   });
 }
-
-function renderArticle(categoryName, subName, article) {
-  contentEl.innerHTML = '';
-  makeBackButton(() => renderSubcategory(categoryName, subName, globalDataCache.categories[categoryName].subcategories[subName]));
-  const title = document.createElement('h2');
-  title.textContent = article.title;
-  contentEl.appendChild(title);
-  const articleContainer = document.createElement('div');
-  articleContainer.className = 'article-content';
-
-  article.content.forEach(block => {
-    if (block.type === 'heading') {
-      const h3 = document.createElement('h3');
-      h3.textContent = block.text;
-      articleContainer.appendChild(h3);
-    } else if (block.type === 'paragraph') {
-      const p = document.createElement('p');
-      p.textContent = block.text;
-      articleContainer.appendChild(p);
-    } else if (block.type === 'image') {
-      const img = document.createElement('img');
-      img.src = block.src;
-      img.alt = block.alt || '';
-      articleContainer.appendChild(img);
-    }
-  });
-
-  contentEl.appendChild(articleContainer);
-}
-
-loadData();
