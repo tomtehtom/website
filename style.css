@@ -9,6 +9,7 @@ body {
   min-height: 100vh;
   position: relative;
   background: linear-gradient(135deg, #f6f8fb 0%, #e8eef6 100%);
+  overflow-x: hidden;
 }
 
 /* soft, frosted blobs behind everything */
@@ -18,9 +19,9 @@ body::before {
   inset: -20%;
   z-index: -1;
   background:
-    radial-gradient(40rem 40rem at 15% 20%, rgba(173, 216, 230, 0.35), rgba(255,255,255,0) 60%),
-    radial-gradient(38rem 38rem at 85% 15%, rgba(255, 182, 193, 0.35), rgba(255,255,255,0) 60%),
-    radial-gradient(42rem 42rem at 30% 85%, rgba(186, 230, 253, 0.35), rgba(255,255,255,0) 60%),
+    radial-gradient(40rem 40rem at 15% 20%, rgba(173, 216, 230, 0.35), rgba(255, 255, 255, 0) 60%),
+    radial-gradient(38rem 38rem at 85% 15%, rgba(255, 182, 193, 0.35), rgba(255, 255, 255, 0) 60%),
+    radial-gradient(42rem 42rem at 30% 85%, rgba(186, 230, 253, 0.35), rgba(255, 255, 255, 0) 60%),
     linear-gradient(135deg, #f7f9fc 0%, #e9f0f8 100%);
   filter: blur(40px);
 }
@@ -33,6 +34,43 @@ body::before {
   max-width: 900px;
   padding: 0 1rem;
   opacity: 0.85;
+}
+
+/* Banner with animated gradient overlay */
+.page-banner {
+  width: 100%;
+  height: 300px;
+  border-radius: 0 0 20px 20px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+/* Gradient overlay */
+.page-banner::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.15));
+  animation: gradientMove 15s linear infinite;
+  backdrop-filter: blur(8px);
+  border-radius: 0 0 20px 20px;
+}
+
+/* Banner title */
+.page-banner h2 {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
 }
 
 #content {
@@ -48,7 +86,7 @@ body::before {
 /* animation */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* base card */
@@ -63,7 +101,7 @@ body::before {
   -webkit-backdrop-filter: blur(12px);
   background: rgba(255, 255, 255, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -73,7 +111,7 @@ body::before {
   animation: fadeInUp 0.5s ease forwards;
 }
 
-/* full-bleed background image layer for cards that have one */
+/* full-bleed background image layer for cards */
 .card.bg::before {
   content: "";
   position: absolute;
@@ -87,16 +125,19 @@ body::before {
   filter: saturate(1.05) contrast(0.98);
 }
 
+/* Gradient animation */
+@keyframes gradientMove {
+  0% { transform: rotate(0deg) translate(0%, 0%); }
+  50% { transform: rotate(180deg) translate(20%, 20%); }
+  100% { transform: rotate(360deg) translate(0%, 0%); }
+}
+
 /* glassy gradient overlay for readability */
 .card.bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg,
-      rgba(255,255,255,0.55) 0%,
-      rgba(255,255,255,0.28) 40%,
-      rgba(255,255,255,0.50) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.28) 40%, rgba(255, 255, 255, 0.50) 100%);
   z-index: 1;
 }
 
@@ -108,9 +149,7 @@ body::before {
 
 .card:hover {
   transform: translateY(-6px) scale(1.015);
-  box-shadow:
-    0 14px 34px rgba(0,0,0,0.14),
-    0 0 22px rgba(255,255,255,0.55); /* soft glow */
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14), 0 0 22px rgba(255, 255, 255, 0.55);
   background: rgba(255, 255, 255, 0.48);
 }
 
@@ -128,7 +167,7 @@ body::before {
   opacity: 0.9;
 }
 
-/* thumbnails for non-bg cards (if you keep them anywhere) */
+/* thumbnails for non-bg cards */
 .card img.thumb {
   width: 100%;
   height: auto;

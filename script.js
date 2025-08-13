@@ -6,6 +6,12 @@ let globalDataCache;
 function createCard({ title, description = "", image = null, level = "category", onClick }) {
   const card = document.createElement('div');
   card.className = 'card';
+  
+  // Adjust height for subcategory cards
+  if (level === 'subcategory') {
+    card.style.height = '240px'; // 40% taller than default
+  }
+
   if (image) {
     card.classList.add('bg');
     // use CSS var for ::before background-image
@@ -22,6 +28,19 @@ function createCard({ title, description = "", image = null, level = "category",
   card.appendChild(inner);
   if (typeof onClick === 'function') card.onclick = onClick;
   return card;
+}
+
+/* utility: create page banner for category/subcategory */
+function createBanner(title, image) {
+  const banner = document.createElement('div');
+  banner.className = 'page-banner';
+  if (image) banner.style.backgroundImage = `url('${image}')`;
+
+  const h2 = document.createElement('h2');
+  h2.textContent = title;
+  banner.appendChild(h2);
+
+  return banner;
 }
 
 async function loadData() {
@@ -65,25 +84,26 @@ function renderHome(globalData) {
   applyStaggeredAnimation();
 }
 
-/* CATEGORY: show subcategories, you can also give them background images if present */
+/* CATEGORY: show subcategories, with banner */
 function renderCategory(name, data) {
   contentEl.innerHTML = '';
   makeBackButton(() => renderHome(globalDataCache));
 
-  const title = document.createElement('h2');
-  title.textContent = name;
-  contentEl.appendChild(title);
+  // Banner
+  contentEl.appendChild(createBanner(name, data.image));
 
+  // Description
   const desc = document.createElement('p');
   desc.id = 'site-description';
   desc.textContent = data.description;
   contentEl.appendChild(desc);
 
+  // Subcategory cards
   for (const [subName, subData] of Object.entries(data.subcategories)) {
     const card = createCard({
       title: subName,
       description: '',                            // cleaner look for subcards
-      image: subData.image || null,               // if provided, will be full background
+      image: subData.image || null,               // subcategory banner if available
       level: 'subcategory',
       onClick: () => renderSubcategory(name, subName, subData),
     });
@@ -93,20 +113,21 @@ function renderCategory(name, data) {
   applyStaggeredAnimation();
 }
 
-/* SUBCATEGORY: list articles, you can keep card backgrounds here too */
+/* SUBCATEGORY: list articles, with banner */
 function renderSubcategory(categoryName, subName, subData) {
   contentEl.innerHTML = '';
   makeBackButton(() => renderCategory(categoryName, globalDataCache.categories[categoryName]));
 
-  const title = document.createElement('h2');
-  title.textContent = `${categoryName} / ${subName}`;
-  contentEl.appendChild(title);
+  // Banner with subcategory image
+  const bannerImage = subData.image || '';
+  contentEl.appendChild(createBanner(`${categoryName} / ${subName}`, bannerImage));
 
+  // Article cards
   subData.articles.forEach(article => {
     const card = createCard({
       title: article.title,
       description: article.abstract || '',
-      image: article.image || null,               // article card background if you want
+      image: article.image || null,               // article card background if desired
       level: 'article',
       onClick: () => renderArticle(categoryName, subName, article),
     });
