@@ -1,117 +1,167 @@
+/* Frosted gradient site background */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(135deg, #f5f7fa, #e4ebf5);
-  color: #333;
+  color: #2b2b2b;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  position: relative;
+  background: linear-gradient(135deg, #f6f8fb 0%, #e8eef6 100%);
 }
 
+/* soft, frosted blobs behind everything */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  background:
+    radial-gradient(40rem 40rem at 15% 20%, rgba(173, 216, 230, 0.35), rgba(255,255,255,0) 60%),
+    radial-gradient(38rem 38rem at 85% 15%, rgba(255, 182, 193, 0.35), rgba(255,255,255,0) 60%),
+    radial-gradient(42rem 42rem at 30% 85%, rgba(186, 230, 253, 0.35), rgba(255,255,255,0) 60%),
+    linear-gradient(135deg, #f7f9fc 0%, #e9f0f8 100%);
+  filter: blur(40px);
+}
+
+/* page blocks */
 #site-description {
-  font-size: 1.2em;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  font-size: 1.1rem;
+  margin: 1rem 0;
   text-align: center;
-  max-width: 800px;
-  padding: 0 1em;
-  opacity: 0.8;
+  max-width: 900px;
+  padding: 0 1rem;
+  opacity: 0.85;
 }
 
 #content {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5em;
-  padding: 1.5em;
+  gap: 1.5rem;
+  padding: 1.5rem;
   width: 100%;
   max-width: 1400px;
   box-sizing: border-box;
 }
 
-/* Fade-in animation */
+/* animation */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
+/* base card */
 .card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  padding: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  padding: 1em;
-  cursor: pointer;
-  transition: all 0.3s ease, box-shadow 0.3s ease;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
-  align-items: center;
   text-align: center;
 
-  /* Animation with stagger delay */
+  /* reveal staggered */
   opacity: 0;
   animation: fadeInUp 0.5s ease forwards;
 }
 
+/* full-bleed background image layer for cards that have one */
+.card.bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.04);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  z-index: 0;
+  filter: saturate(1.05) contrast(0.98);
+}
+
+/* glassy gradient overlay for readability */
+.card.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(255,255,255,0.55) 0%,
+      rgba(255,255,255,0.28) 40%,
+      rgba(255,255,255,0.50) 100%);
+  z-index: 1;
+}
+
+/* card inner content sits above overlays */
+.card .card-content {
+  position: relative;
+  z-index: 2;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,0.14),
+    0 0 22px rgba(255,255,255,0.55); /* soft glow */
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.card.bg:hover::before {
+  transform: scale(1.08);
+  filter: saturate(1.1) contrast(1.02);
+}
+
+.card h2, .card h3 {
+  margin: 0.4rem 0 0.3rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* thumbnails for non-bg cards (if you keep them anywhere) */
 .card img.thumb {
   width: 100%;
   height: auto;
   border-radius: 16px;
-  margin-bottom: 1em;
+  margin-bottom: 0.8rem;
   transition: transform 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15),
-              0 0 20px rgba(255, 255, 255, 0.5); /* Soft glow */
-  background: rgba(255, 255, 255, 0.55);
-}
+.card:hover img.thumb { transform: scale(1.04); }
 
-.card:hover img.thumb {
-  transform: scale(1.05);
-}
-
-.card h2, .card h3 {
-  margin: 0.5em 0 0.3em;
-}
-
-.card p {
-  font-size: 0.95em;
-  opacity: 0.85;
-}
-
+/* back button and article container keep glass look */
 .back-btn {
   align-self: flex-start;
-  margin: 1em;
-  padding: 0.6em 1.2em;
-  background: rgba(255, 255, 255, 0.3);
+  margin: 0.5rem 0 0 0.5rem;
+  padding: 0.55rem 1.1rem;
+  background: rgba(255, 255, 255, 0.35);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   cursor: pointer;
   transition: background 0.2s ease;
   animation: fadeInUp 0.4s ease forwards;
 }
 
-.back-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
+.back-btn:hover { background: rgba(255, 255, 255, 0.5); }
 
 .article-content {
   max-width: 900px;
-  padding: 1em;
+  padding: 1rem;
+  margin: 0 auto;
   background: rgba(255, 255, 255, 0.35);
-  border-radius: 20px;
+  border-radius: 22px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -121,6 +171,6 @@ body {
 .article-content img {
   width: 100%;
   border-radius: 12px;
-  margin: 1em 0;
+  margin: 1rem 0;
   animation: fadeInUp 0.4s ease forwards;
 }
