@@ -46,6 +46,27 @@
             ]
           }
         }
+      },
+      "Adventure": {
+        "description": "Adventure projects and experiences.",
+        "image": "assets/adventure.jpg",
+        "subcategories": {
+          "Trips": {
+            "image": "assets/a.jpg",
+            "articles": [
+              {
+                "title": "Test1",
+                "abstract": "A something",
+                "image": "assets/a.jpg",
+                "content": [
+                  { "type": "heading", "text": "Overview" },
+                  { "type": "paragraph", "text": "abcdef" },
+                  { "type": "image", "src": "assets/a.jpg", "alt": "test" }
+                ]
+              }
+            ]
+          }
+        }
       }
     }
   }
