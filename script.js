@@ -17,20 +17,24 @@ function makeBackButton(callback) {
   contentEl.appendChild(btn);
 }
 
+function applyStaggeredAnimation() {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.08}s`; // stagger by 80ms
+  });
+}
+
 function renderHome(globalData) {
   siteDescriptionEl.textContent = globalData.description;
   contentEl.innerHTML = '';
   for (const [categoryName, categoryData] of Object.entries(globalData.categories)) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `
-      ${categoryData.image ? `<img class="thumb" src="${categoryData.image}" alt="${categoryName} thumbnail">` : ''}
-      <h2>${categoryName}</h2>
-      <p>${categoryData.description}</p>
-    `;
+    card.innerHTML = `<h2>${categoryName}</h2><p>${categoryData.description}</p>`;
     card.onclick = () => renderCategory(categoryName, categoryData);
     contentEl.appendChild(card);
   }
+  applyStaggeredAnimation();
 }
 
 function renderCategory(name, data) {
@@ -45,13 +49,11 @@ function renderCategory(name, data) {
   for (const [subName, subData] of Object.entries(data.subcategories)) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `
-      ${subData.image ? `<img class="thumb" src="${subData.image}" alt="${subName} thumbnail">` : ''}
-      <h3>${subName}</h3>
-    `;
+    card.innerHTML = `<h3>${subName}</h3>`;
     card.onclick = () => renderSubcategory(name, subName, subData);
     contentEl.appendChild(card);
   }
+  applyStaggeredAnimation();
 }
 
 function renderSubcategory(categoryName, subName, subData) {
@@ -63,14 +65,11 @@ function renderSubcategory(categoryName, subName, subData) {
   subData.articles.forEach(article => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `
-      ${article.image ? `<img class="thumb" src="${article.image}" alt="${article.title} thumbnail">` : ''}
-      <h3>${article.title}</h3>
-      <p>${article.abstract}</p>
-    `;
+    card.innerHTML = `<h3>${article.title}</h3><p>${article.abstract}</p>`;
     card.onclick = () => renderArticle(categoryName, subName, article);
     contentEl.appendChild(card);
   });
+  applyStaggeredAnimation();
 }
 
 function renderArticle(categoryName, subName, article) {
