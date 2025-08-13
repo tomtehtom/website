@@ -4,67 +4,22 @@
     "categories": {
       "Cars": {
         "description": "All my automotive projects.",
+        "image": "assets/cars-thumb.jpg",
         "subcategories": {
           "Restoration": {
+            "image": "assets/restoration-thumb.jpg",
             "articles": [
               {
                 "title": "1989 Mazda Restoration",
                 "abstract": "Full body and mechanical restoration of a classic Mazda.",
+                "image": "assets/mazda-card.jpg",
                 "content": [
-                  {
-                    "type": "heading",
-                    "text": "Introduction"
-                  },
-                  {
-                    "type": "paragraph",
-                    "text": "This project was about restoring a 1989 Mazda to factory condition."
-                  },
-                  {
-                    "type": "image",
-                    "src": "assets/mazda-before.jpg",
-                    "alt": "Mazda before restoration"
-                  },
-                  {
-                    "type": "heading",
-                    "text": "Body Work"
-                  },
-                  {
-                    "type": "paragraph",
-                    "text": "We replaced panels, sanded, and repainted the car in original color."
-                  },
-                  {
-                    "type": "image",
-                    "src": "assets/mazda-after.jpg",
-                    "alt": "Mazda after restoration"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      },
-      "Tech": {
-        "description": "Technical projects and experiments.",
-        "subcategories": {
-          "Electronics": {
-            "articles": [
-              {
-                "title": "Arduino-Powered ECU",
-                "abstract": "A custom ECU built using Arduino and CAN communication.",
-                "content": [
-                  {
-                    "type": "heading",
-                    "text": "Overview"
-                  },
-                  {
-                    "type": "paragraph",
-                    "text": "This ECU was built for a Formula Student car project."
-                  },
-                  {
-                    "type": "image",
-                    "src": "assets/ecu.jpg",
-                    "alt": "Custom ECU board"
-                  }
+                  { "type": "heading", "text": "Introduction" },
+                  { "type": "paragraph", "text": "This project was about restoring a 1989 Mazda to factory condition." },
+                  { "type": "image", "src": "assets/mazda-before.jpg", "alt": "Mazda before restoration" },
+                  { "type": "heading", "text": "Body Work" },
+                  { "type": "paragraph", "text": "We replaced panels, sanded, and repainted the car in original color." },
+                  { "type": "image", "src": "assets/mazda-after.jpg", "alt": "Mazda after restoration" }
                 ]
               }
             ]

@@ -46,3 +46,10 @@ main {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.card img.thumb {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
