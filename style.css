@@ -21,12 +21,22 @@ main {
 }
 
 .card {
-  background: white;
-  padding: 1rem;
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: white;
   cursor: pointer;
+  max-width: 300px;
 }
+
+.card img.thumb {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 0.5em;
+}
+
 
 .card h2, .card h3 {
   margin-top: 0;
@@ -47,9 +57,3 @@ main {
   cursor: pointer;
 }
 
-.card img.thumb {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-}
